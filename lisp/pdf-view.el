@@ -537,11 +537,15 @@ dimension to window."
   "Enlarge PDF by FACTOR.
 
 When called interactively, uses the value of
-`pdf-view-resize-factor'.
+`pdf-view-resize-factor'. A numeric prefix arg may be used for
+multiple enlargement.
 
 For example, (pdf-view-enlarge 1.25) increases size by 25%."
   (interactive
-   (list (float pdf-view-resize-factor)))
+   (if current-prefix-arg
+       (list (expt (float pdf-view-resize-factor)
+                   (prefix-numeric-value current-prefix-arg)))
+     (list (float pdf-view-resize-factor))))
   (let* ((size (pdf-view-image-size))
          (pagesize (pdf-cache-pagesize
                     (pdf-view-current-page)))
@@ -555,11 +559,15 @@ For example, (pdf-view-enlarge 1.25) increases size by 25%."
   "Shrink PDF by FACTOR.
 
 When called interactively, uses the value of
-`pdf-view-resize-factor'.
+`pdf-view-resize-factor'. A numeric prefix arg may be used for
+multiple shrinkage.
 
 For example, (pdf-view-shrink 1.25) decreases size by 20%."
   (interactive
-   (list (float pdf-view-resize-factor)))
+   (if current-prefix-arg
+       (list (expt (float pdf-view-resize-factor)
+                   (prefix-numeric-value current-prefix-arg)))
+     (list (float pdf-view-resize-factor))))
   (pdf-view-enlarge (/ 1.0 factor)))
 
 (defun pdf-view-scale-reset ()
